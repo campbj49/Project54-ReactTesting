@@ -16,20 +16,28 @@ import Card from "./Card";
  */
  function Carousel({ photos, title }) {
   const [currCardIdx, setCurrCardIdx] = useState(0);
+  const [leftHide, setLeftHide] = useState({visibility:"hidden"});
+  const [rightHide, setRightHide] = useState({});
 
   const currCard = photos[currCardIdx];
   const total = photos.length;
 
-  //Increments currCardIdx state by 1 as long as there's room
+  //Increments currCardIdx state by 1 and hides it 
   function goForward() {
+    setLeftHide({})
     if(currCardIdx < total-1)
       setCurrCardIdx(currCardIdx + 1);
+    if(currCardIdx >=total-2)
+      setRightHide({visibility:"hidden"});
   }
 
   //Decrements currCardIdx state by 1 as long as it's greater than 1
   function goBackward() {
+    setRightHide({});
     if(currCardIdx >0)
       setCurrCardIdx(currCardIdx - 1);
+    if(currCardIdx <=1)
+      setLeftHide({visibility:"hidden"})
   }
 
   return (
@@ -38,6 +46,7 @@ import Card from "./Card";
       <div className="Carousel-main">
         <i
           className="bi bi-arrow-left-circle"
+          style = {leftHide}
           onClick={goBackward}
         />
         <Card
@@ -48,6 +57,7 @@ import Card from "./Card";
         />
         <i
           className="bi bi-arrow-right-circle"
+          style={rightHide}
           onClick={goForward}
         />
       </div>

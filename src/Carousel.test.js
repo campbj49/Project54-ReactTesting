@@ -90,3 +90,43 @@ it("works when you click on the left arrow", function() {
   ).not.toBeInTheDocument();
 });
 
+
+it("buttons hide when not needed", function() {
+  const { container } = render(
+    <Carousel
+      photos={TEST_IMAGES}
+      title="images for testing"
+    />
+  );
+
+  // expect right arrow to show, but not the left
+  expect(
+    container.querySelector('.bi-arrow-right-circle')
+  ).toBeVisible();
+  expect(
+    container.querySelector('.bi-arrow-left-circle')
+  ).not.toBeVisible();
+
+  // move forward in the carousel
+  const rightArrow = container.querySelector(".bi-arrow-right-circle");
+  fireEvent.click(rightArrow);
+
+  // expect both arrows to show
+  expect(
+    container.querySelector('.bi-arrow-right-circle')
+  ).toBeVisible();
+  expect(
+    container.querySelector('.bi-arrow-left-circle')
+  ).toBeVisible();
+
+  // move forward in the carousel again
+  fireEvent.click(rightArrow);
+
+  // expect the left arrow to show, but not the right
+  expect(
+    container.querySelector('.bi-arrow-right-circle')
+  ).not.toBeVisible();
+  expect(
+    container.querySelector('.bi-arrow-left-circle')
+  ).toBeVisible();
+});
